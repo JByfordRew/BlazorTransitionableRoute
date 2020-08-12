@@ -1,5 +1,5 @@
 ﻿<CascadingValue Value="IsTransitioning">
-    <RouteView RouteData="@RouteData" DefaultLayout="@Layout"></RouteView>
+    <RouteView RouteData="@RouteData" DefaultLayout="@DefaultLayout"></RouteView>
 </CascadingValue>
 
 @code {
@@ -10,5 +10,5 @@
     public RouteData RouteData { get; set; }
 
     [Parameter]
-    public Type Layout { get; set; }
+    public Type DefaultLayout { get; set; }
 }
