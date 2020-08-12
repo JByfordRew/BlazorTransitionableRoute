@@ -1,0 +1,19 @@
+﻿@inherits TransitionableLayoutComponent
+
+<div class="transition @transitioningClass">
+    @Body
+</div>
+
+<style>
+    .transition {
+        position: absolute;
+    }
+
+    .transition-in {
+        opacity: 0;
+    }
+</style>
+
+@code {
+    private string transitioningClass => TransitioningIn ? "transition-in" : "transition-out";
+}
