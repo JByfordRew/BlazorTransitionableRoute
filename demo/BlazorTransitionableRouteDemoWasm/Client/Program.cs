@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using BlazorTransitionableRouteDemoWasm.Client.Shared;
 
 namespace BlazorTransitionableRouteDemoWasm.Client
 {
@@ -18,6 +19,10 @@ namespace BlazorTransitionableRouteDemoWasm.Client
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            builder.Services.AddScoped<BlazorTransitionableRoute.NavigationState>();
+            builder.Services.AddScoped<BlazorTransitionableRoute.NavigationStateHandler>();
+            builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, RouteTransitionInvoker>();
 
             await builder.Build().RunAsync();
         }
