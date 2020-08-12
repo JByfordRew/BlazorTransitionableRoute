@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRoute", "BlazorTransitionableRoute.csproj", "{1777A4E9-D371-431F-83FA-99ABFBCFF80D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1777A4E9-D371-431F-83FA-99ABFBCFF80D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1777A4E9-D371-431F-83FA-99ABFBCFF80D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1777A4E9-D371-431F-83FA-99ABFBCFF80D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1777A4E9-D371-431F-83FA-99ABFBCFF80D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76448691-F73C-4367-AD8C-C929B2AB44C6}
+	EndGlobalSection
+EndGlobal
