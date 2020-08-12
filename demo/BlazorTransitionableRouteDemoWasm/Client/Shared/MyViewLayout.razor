@@ -1,0 +1,23 @@
+﻿<div class="transition @transitioningClass">
+    @ChildContent
+</div>
+
+<style>
+    .transition {
+        position: absolute;
+    }
+
+    .transition-in {
+        opacity: 0;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [CascadingParameter]
+    public bool IsTransitioning { get; set; }
+
+    private string transitioningClass => IsTransitioning ? "transition-in" : "transition-out";
+}
