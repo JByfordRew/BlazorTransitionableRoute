@@ -22,9 +22,12 @@
         base.OnParametersSet();
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await navigationStateHandler.Initialise();
-        await base.OnInitializedAsync();
+        if (firstRender)
+        {
+            await navigationStateHandler.Initialise();
+        }
+        await base.OnAfterRenderAsync(firstRender);
     }
 }
