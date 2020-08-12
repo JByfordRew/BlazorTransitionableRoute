@@ -20,7 +20,7 @@ namespace BlazorTransitionableRoute
 
         internal void HandleLocationChanged(object sender, LocationChangedEventArgs locationChangedEventArgs)
         {
-            navigationState.LocationChanged(locationChangedEventArgs).GetAwaiter().GetResult();
+            navigationState.LocationChanged(locationChangedEventArgs);
         }
 
         internal async Task Initialise() => await navigationState.Initialise();
