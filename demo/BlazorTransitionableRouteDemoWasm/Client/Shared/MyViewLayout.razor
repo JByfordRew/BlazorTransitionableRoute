@@ -1,5 +1,8 @@
-﻿<div class="transition @transitioningClass">
-    @ChildContent
+﻿
+@inherits TransitionableLayoutComponent
+
+<div class="transition @transitioningClass">
+    @Body
 </div>
 
 <style>
@@ -13,11 +16,5 @@
 </style>
 
 @code {
-    [Parameter]
-    public RenderFragment ChildContent { get; set; }
-
-    [CascadingParameter]
-    public bool IsTransitioning { get; set; }
-
-    private string transitioningClass => IsTransitioning ? "transition-in" : "transition-out";
+    private string transitioningClass => TransitioningIn ? "transition-in" : "transition-out";
 }
