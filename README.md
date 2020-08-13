@@ -32,7 +32,7 @@ dotnet add package BlazorTransitionableRoute
 For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section) 
 
 ```html
-<script src="_content/BlazorTransitionalRoute/jsInterop.js"></script>
+<script src="_content/BlazorTransitionableRoute/jsInterop.js"></script>
 ```
 
 Add reference to _Imports.razor file
@@ -125,7 +125,8 @@ namespace BlazorTransitionableRouteDemoWasm.Client.Shared
 For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section), for example
 ```html
 <script src="yourJsInteropForAnimatedTransitions.js"></script>
-... any other supporting animation library scripts you are using
+... any other supporting animation library scripts you are using, for example using animate.css
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
 ```
 
 Add your js interop implementation, for example (this is from the demos using animate.css)
