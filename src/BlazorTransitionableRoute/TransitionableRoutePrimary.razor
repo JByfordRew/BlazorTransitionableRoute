@@ -1,0 +1,33 @@
+﻿@inject NavigationStateHandler navigationStateHandler
+
+<CascadingValue Value="RouteData">
+    <CascadingValue Value="TransitioningIn">
+        @ChildContent
+    </CascadingValue>
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RouteData RouteData { get; set; }
+
+    [Parameter]
+    public bool TransitioningIn { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        RouteData = this.ViewRoutData(RouteData);
+        base.OnParametersSet();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await navigationStateHandler.Initialise();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}
