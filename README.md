@@ -49,7 +49,7 @@ builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, Ro
 
 ### A change to routing approach
 
-Modify the App.razor file to take advantage of the transitionable route layouts and view.  This means moving the `MainLayout` to be more explicit in the app router and providing a more container like `MyViewLayout` as the default layouts. You can see below the simple use of primary and secondary route views. The `TransitionableRoutePrimary / Secondary` modify the `RouteData` passed to each inner `TransitionableRouteView` based on the active state, which are swapped after each navigation to preserve component instances.
+Modify the App.razor file to take advantage of the transitionable route layouts and view.  This means moving the `MainLayout` to be more explicit in the app router and providing a more container like `MyViewLayout` as the default layouts. You can see below the simple use of primary and secondary route views. The `TransitionableRoutePrimary / Secondary` modify the `RouteData` passed to each inner `TransitionableRouteView` based on the active state, which is swapped after each navigation to preserve component instances.
 ```html
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
