@@ -32,7 +32,7 @@ dotnet add package BlazorTransitionableRoute
 For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section) 
 
 ```html
-<script src="_content/BlazorTransitionalRoute/jsInterop.js"></script>
+<script src="_content/BlazorTransitionableRoute/jsInterop.js"></script>
 ```
 
 Add reference to _Imports.razor file
