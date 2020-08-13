@@ -4,6 +4,8 @@ Allows current and previous route to exist enabling transition animations of UI/
 ## What it does?
 Sometimes you need to show transitions between route but Blazor by default only allows one.  This provides an ability to remember the last route and allow you to perform transitions out and in on the old and new route views rendered.
 
+![Demo](demo/BlazorTransitionableRouteDemo.gif)
+
 ## How it works?
 Having two view layouts means we can remember the previous route but we cannot simply overwrite them, they must be preserved so we do not lose browser state like scroll position etc. This solution handles the route views and knows when to call the transition implementation you provide to it.  It also works with the browser navigation buttons.
 If you need to had in app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
@@ -23,6 +25,10 @@ or
 dotnet add package TODO
 ```
 
+## Usage
+
+### Common component steps
+
 For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section) 
 
 ```html
@@ -41,11 +47,12 @@ builder.Services.AddScoped<BlazorTransitionableRoute.NavigationStateHandler>();
 builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, RouteTransitionInvoker>();
 ```
 
+### A change to routing approach
+
 Modify the App.razor file to take advantage of the transitionable route layouts and view.  This means moving the `MainLayout` to be more explicit in the app router and providing a more container like `MyViewLayout` as the default layouts. You can see below the simple use of primary and secondary route views.
 ```html
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <LayoutView Layout="@typeof(MainLayout)">
             <TransitionableRoutePrimary RouteData="@routeData">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
@@ -63,7 +70,9 @@ Modify the App.razor file to take advantage of the transitionable route layouts 
 </Router>
 ```
 
-You will need to create your own transitiong view, for example
+### Example usage
+
+You will need to create your own transitiong view, for example (`TransitioningIn` is provided by the inherited `TransitionableLayoutComponent`)
 ```html
 @inherits TransitionableLayoutComponent
 
