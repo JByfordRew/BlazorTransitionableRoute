@@ -23,3 +23,6 @@ jobs:
       with:
           PROJECT_FILE_PATH: src/BlazorTransitionableRoute/BlazorTransitionableRoute.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          PACKAGE_NAME: BlazorTransitionableRoute  
+          VERSION_STATIC: 1.0.0
+            

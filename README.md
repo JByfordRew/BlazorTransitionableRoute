@@ -15,14 +15,14 @@ See the demos for how to implement.
 
 ## Installation
 
-Latest version in here:  TODO
+Latest version in here:  [![NuGet](https://img.shields.io/nuget/v/BlazorTransitionableRoute.svg)](https://www.nuget.org/packages/BlazorTransitionableRoute/)
 
 ```
-Install-Package TODO
+Install-Package BlazorTransitionableRoute
 ```
 or 
 ```
-dotnet add package TODO
+dotnet add package BlazorTransitionableRoute
 ```
 
 ## Usage
