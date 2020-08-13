@@ -1,14 +1,11 @@
-name: .NET Core
+name: Publish Packages
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +13,13 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 3.1.101
     - name: Install dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    - name: Publish BlazorTransitionableRoute
+      uses: brandedoutcast/publish-nuget@v2.5.2
+      with:
+          PROJECT_FILE_PATH: BlazorTransitionableRoute.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
