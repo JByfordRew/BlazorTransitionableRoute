@@ -21,5 +21,5 @@ jobs:
     - name: Publish BlazorTransitionableRoute
       uses: brandedoutcast/publish-nuget@v2.5.2
       with:
-          PROJECT_FILE_PATH: BlazorTransitionableRoute.csproj
+          PROJECT_FILE_PATH: src/BlazorTransitionableRoute/BlazorTransitionableRoute.csproj
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
