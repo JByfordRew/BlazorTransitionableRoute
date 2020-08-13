@@ -6,6 +6,7 @@
     <Authors>Jeremy Byford-Rew, KernowCode</Authors>
     <RepositoryUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
