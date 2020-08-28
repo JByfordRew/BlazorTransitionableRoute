@@ -1,13 +1,13 @@
-﻿<CascadingValue Value="IsTransitioning">
-    <RouteView RouteData="@RouteData" DefaultLayout="@DefaultLayout"></RouteView>
-</CascadingValue>
+﻿@if (Transition?.RouteData != null)
+{
+    <CascadingValue Value="Transition">
+        <RouteView RouteData="@Transition.RouteData" DefaultLayout="@DefaultLayout"></RouteView>
+    </CascadingValue>
+}
 
 @code {
     [CascadingParameter]
-    public bool IsTransitioning { get; set; }
-
-    [CascadingParameter]
-    public RouteData RouteData { get; set; }
+    public Transition Transition { get; set; }
 
     [Parameter]
     public Type DefaultLayout { get; set; }

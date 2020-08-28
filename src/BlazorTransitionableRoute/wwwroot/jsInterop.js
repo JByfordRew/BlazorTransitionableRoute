@@ -65,17 +65,30 @@ window.addEventListener('popstate', onPopstate);
 
 //Interop
 window.blazorTransitionableRoute = {
-    init: function (dotnetHelper) {
+    dotnetHelperPrimary: undefined,
+    dotnetHelperSecondary: undefined,
+    init: function (dotnetHelper, isPrimary) {
 
-        window.addEventListener('forward', event => {
-            let isForwards = true;
-            let location = event.currentTarget.location.href;
-            dotnetHelper.invokeMethodAsync('Navigate', isForwards, location);
-        });
-        window.addEventListener('back', event => {
-            let isForwards = false;
-            let location = event.currentTarget.location.href;
-            dotnetHelper.invokeMethodAsync('Navigate', isForwards, location);
-        });
+        if (isPrimary) {
+            window.blazorTransitionableRoute.dotnetHelperPrimary = dotnetHelper;
+            let lastLocation = location.href;
+            let isBackwards = false;
+            let invokeTransition = () => {
+                window.blazorTransitionableRoute.dotnetHelperPrimary.invokeMethodAsync('Navigate', isBackwards);
+                window.blazorTransitionableRoute.dotnetHelperSecondary.invokeMethodAsync('Navigate', isBackwards);
+            }
+            setInterval(function () {
+                if (lastLocation != location.href) {
+                    lastLocation = location.href;
+                    invokeTransition();
+                    isBackwards = false;
+                }
+            }, 25);
+            window.addEventListener('back', event => {
+                isBackwards = true;
+            });
+        } else {
+            window.blazorTransitionableRoute.dotnetHelperSecondary = dotnetHelper;
+        }
     }
 }

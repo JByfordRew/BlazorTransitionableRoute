@@ -8,12 +8,17 @@
     .transition {
         position: absolute;
     }
+</style>
 
+@if (!Transition.FirstRender)
+{
+<style>
     .transition-in {
         opacity: 0;
     }
 </style>
+}
 
 @code {
-    private string transitioningClass => TransitioningIn ? "transition-in" : "transition-out";
+    private string transitioningClass => Transition.IntoView ? "transition-in" : "transition-out";
 }

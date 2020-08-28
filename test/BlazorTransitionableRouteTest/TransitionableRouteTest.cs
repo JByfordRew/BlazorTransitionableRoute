@@ -1,8 +1,10 @@
 ﻿using BlazorTransitionableRoute;
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -21,8 +23,8 @@ namespace BlazorTransitionableRouteTest
                 .When.UpdateRoute(routeData)
                 .Then.PrimaryRouteDataIs(routeData)
                 .And.SecondaryRouteDataIs(null)
-                .And.SecondaryViewIsNotRendered()
-                .And.NoRouteHasTransition();
+                .And.PrimaryRouteHasTransition()
+                .And.SecondaryViewIsNotRendered();
         }
 
         [Fact]
@@ -70,6 +72,7 @@ namespace BlazorTransitionableRouteTest
                 .And.SecondaryTransitionableRoute()
                 .And.UpdateRoute(firstRouteData)
                 .And.UpdateRoute(secondRouteData)
+                .And.NavigateBack()
                 .And.UpdateRoute(firstRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
@@ -125,11 +128,12 @@ namespace BlazorTransitionableRouteTest
                 .Given.PrimaryTransitionableRoute()
                 .And.SecondaryTransitionableRoute()
                 .And.UpdateRoute(firstRouteData)
+                .And.RouteHasNotChanged()
                 .When.UpdateRoute(firstRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteDataIs(null)
-                .And.NoRouteHasTransition()
-                ;
+                .And.PrimaryRouteHasTransition()
+                .And.SecondaryViewIsNotRendered();
         }
 
         [Fact]
@@ -143,10 +147,11 @@ namespace BlazorTransitionableRouteTest
                 .And.SecondaryTransitionableRoute()
                 .And.UpdateRoute(firstRouteData)
                 .And.UpdateRoute(secondRouteData)
+                .And.RouteHasNotChanged()
                 .When.UpdateRoute(secondRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
-                .And.NoRouteHasTransition();
+                .And.SecondaryRouteHasTransition();
         }
 
         [Fact]
@@ -168,9 +173,18 @@ namespace BlazorTransitionableRouteTest
 
     internal class TransitionableRouteFixture
     {
+        private bool doNotInvokeStateChangedDuringTestBool = false;
+        private IJSRuntime jsRuntime = new StubJsRuntime();
+
+        private StubRouteTransitionInvoker transitionInvoker1 = new StubRouteTransitionInvoker();
+        private StubRouteTransitionInvoker transitionInvoker2 = new StubRouteTransitionInvoker();
+
         private TransitionableRoutePrimary primaryTransitionableRoute;
         private TransitionableRouteSecondary secondaryTransitionableRoute;
         private RouteData routeData;
+        private bool isBackwards = false;
+        private bool isRouteChanged = true;
+        private bool isFirstRender = true;
 
         internal TransitionableRouteFixture Given => this;
         internal TransitionableRouteFixture When => this;
@@ -180,6 +194,9 @@ namespace BlazorTransitionableRouteTest
         internal TransitionableRouteFixture PrimaryTransitionableRoute()
         {
             this.primaryTransitionableRoute = new TransitionableRoutePrimary();
+            this.primaryTransitionableRoute.TransitionInvoker = this.transitionInvoker1;
+            this.primaryTransitionableRoute.JSRuntime = jsRuntime;
+            this.primaryTransitionableRoute.invokesStateChanged = doNotInvokeStateChangedDuringTestBool;
             return this;
         }
 
@@ -194,56 +211,102 @@ namespace BlazorTransitionableRouteTest
         {
             this.secondaryTransitionableRoute = new TransitionableRouteSecondary();
             this.secondaryTransitionableRoute.MakeSecondary();
+            this.secondaryTransitionableRoute.TransitionInvoker = this.transitionInvoker2;
+            this.secondaryTransitionableRoute.JSRuntime = jsRuntime;
+            this.secondaryTransitionableRoute.invokesStateChanged = doNotInvokeStateChangedDuringTestBool;
+            return this;
+        }
+
+        internal TransitionableRouteFixture NavigateBack()
+        {
+            this.isBackwards = true;
+            return this;
+        }
+
+        internal TransitionableRouteFixture RouteHasNotChanged()
+        {
+            this.isRouteChanged = false;
             return this;
         }
 
         internal TransitionableRouteFixture UpdateRoute(RouteData routeData)
         {
             this.routeData = routeData;
-            this.primaryTransitionableRoute.RouteData = this.primaryTransitionableRoute.ViewRoutData(this.routeData);
-            this.secondaryTransitionableRoute.RouteData = this.secondaryTransitionableRoute.ViewRoutData(this.routeData);
+
+            this.primaryTransitionableRoute.RouteData = this.routeData;
+            this.secondaryTransitionableRoute.RouteData = this.routeData;
+
+            if (isFirstRender)
+            {
+                this.primaryTransitionableRoute.HandleFirstRender().GetAwaiter().GetResult();
+                this.secondaryTransitionableRoute.HandleFirstRender().GetAwaiter().GetResult();
+            }
+            else if (isRouteChanged)
+            {
+                this.primaryTransitionableRoute.Navigate(isBackwards, isFirstRender).GetAwaiter().GetResult();
+                this.secondaryTransitionableRoute.Navigate(isBackwards, isFirstRender).GetAwaiter().GetResult();
+            }
+
+            isFirstRender = false;
+            isRouteChanged = true;
+
             return this;
         }
 
         internal TransitionableRouteFixture PrimaryRouteDataIs(RouteData routeData)
         {
-            this.primaryTransitionableRoute.RouteData.Should().BeEquivalentTo(routeData);
+            this.primaryTransitionableRoute.Transition.RouteData
+                .Should().BeEquivalentTo(routeData);
             return this;
         }
 
         internal TransitionableRouteFixture SecondaryRouteDataIs(RouteData routeData)
         {
-            this.secondaryTransitionableRoute.RouteData.Should().BeEquivalentTo(routeData);
+            this.secondaryTransitionableRoute.Transition.RouteData
+                .Should().BeEquivalentTo(routeData);
             return this;
         }
 
         internal TransitionableRouteFixture SecondaryViewIsNotRendered()
         {
-            this.secondaryTransitionableRoute.CanRender.Should().BeFalse();
+            this.secondaryTransitionableRoute.Transition.RouteData
+                .Should().BeNull();
             return this;
         }
 
         internal TransitionableRouteFixture PrimaryRouteHasTransition()
         {
-            this.primaryTransitionableRoute.TransitioningIn.Should().BeTrue();
-            this.secondaryTransitionableRoute.TransitioningIn.Should().BeFalse();
+            this.primaryTransitionableRoute.Transition.IntoView.Should().BeTrue();
+            this.primaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
+            CheckInvokedTransition(this.transitionInvoker1);
+
+            this.secondaryTransitionableRoute.Transition.IntoView.Should().BeFalse();
+            this.secondaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
+            CheckInvokedTransition(this.transitionInvoker2);
+
+            this.isBackwards = false;
+
             return this;
         }
-
-        internal TransitionableRouteFixture NoRouteHasTransition()
-        {
-            this.primaryTransitionableRoute.TransitioningIn.Should().BeFalse();
-            this.secondaryTransitionableRoute.TransitioningIn.Should().BeFalse();
-            return this;
-        }
-
-
 
         internal TransitionableRouteFixture SecondaryRouteHasTransition()
         {
-            this.primaryTransitionableRoute.TransitioningIn.Should().BeFalse();
-            this.secondaryTransitionableRoute.TransitioningIn.Should().BeTrue();
+            this.primaryTransitionableRoute.Transition.IntoView.Should().BeFalse();
+            this.primaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
+            CheckInvokedTransition(this.transitionInvoker1);
+
+            this.secondaryTransitionableRoute.Transition.IntoView.Should().BeTrue();
+            this.secondaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
+            CheckInvokedTransition(this.transitionInvoker2);
+
             return this;
+        }
+
+        private void CheckInvokedTransition(StubRouteTransitionInvoker stubRouteTransitionInvoker)
+        {
+            stubRouteTransitionInvoker.invoked.Should().BeTrue();
+            stubRouteTransitionInvoker.backwards.Should().Be(this.isBackwards);
+            stubRouteTransitionInvoker.Reset();
         }
     }
 
@@ -262,4 +325,34 @@ namespace BlazorTransitionableRouteTest
 
     internal class StubType2 : StubType1 { }
     internal class StubType3 : StubType2 { }
+
+    internal class StubJsRuntime : IJSRuntime
+    {
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args)
+        {
+            return default;
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class StubRouteTransitionInvoker : IRouteTransitionInvoker
+    {
+        internal bool invoked;
+        internal bool backwards;
+        internal void Reset()
+        {
+            invoked = false;
+        }
+
+        public Task InvokeRouteTransitionAsync(bool backwards)
+        {
+            this.invoked = true;
+            this.backwards = backwards;
+            return Task.CompletedTask;
+        }
+    }
 }

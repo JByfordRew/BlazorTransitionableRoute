@@ -1,18 +1,10 @@
 ﻿@inherits TransitionableRoutePrimary
 
-@if (CanRender)
-{
-    <CascadingValue Value="RouteData">
-        <CascadingValue Value="TransitioningIn">
-            @ChildContent
-        </CascadingValue>
-    </CascadingValue>
-}
-
+<CascadingValue Value="Transition">
+    @ChildContent
+</CascadingValue>
 
 @code {
-    internal bool CanRender => RouteData != null;
-
     protected override void OnInitialized()
     {
         MakeSecondary();

@@ -9,12 +9,12 @@
     .transition {
         position: absolute;
     }
-
-    .transition-in {
-        opacity: 0;
-    }
 </style>
 
 @code {
-    private string transitioningClass => TransitioningIn ? "transition-in" : "transition-out";
+    private string transitioningDirection => Transition.Backwards ? "Up" : "Down";
+
+    private string transitioningClass => Transition.FirstRender ? "" : Transition.IntoView
+        ? $"animate__fadeIn{transitioningDirection} animate__faster animate__animated"
+         : $"animate__fadeOut{transitioningDirection} animate__faster animate__animated";
 }

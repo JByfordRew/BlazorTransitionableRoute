@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorTransitionableRouteDemoServer.Data;
 using BlazorTransitionableRouteDemoServer.Shared;
+using BlazorTransitionableRoute;
 
 namespace BlazorTransitionableRouteDemoServer
 {
@@ -31,10 +32,7 @@ namespace BlazorTransitionableRouteDemoServer
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
-            services.AddScoped<BlazorTransitionableRoute.NavigationState>();
-            services.AddScoped<BlazorTransitionableRoute.NavigationStateHandler>();
-            services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, RouteTransitionInvoker>();
-
+            services.AddScoped<IRouteTransitionInvoker, MyRouteTransitionInvoker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

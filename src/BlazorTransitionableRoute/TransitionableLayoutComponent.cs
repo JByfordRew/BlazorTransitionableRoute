@@ -5,6 +5,6 @@ namespace BlazorTransitionableRoute
     public class TransitionableLayoutComponent : LayoutComponentBase, ITransitionableLayoutComponent
     {
         [CascadingParameter]
-        public bool TransitioningIn { get; set; }
+        public Transition Transition{ get; set; }
     }
 }
