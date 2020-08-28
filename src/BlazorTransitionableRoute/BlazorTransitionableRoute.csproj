@@ -6,7 +6,7 @@
     <Authors>Jeremy Byford-Rew, KernowCode</Authors>
     <RepositoryUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.2</Version>
+    <Version>2.0.0</Version>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <LangVersion>8.0</LangVersion>
@@ -21,6 +21,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Company>Jeremy Byford-Rew, KernowCode</Company>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <PackageReleaseNotes>Breaking changes to v1. See readme at https://github.com/JByfordRew/BlazorTransitionableRoute</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
