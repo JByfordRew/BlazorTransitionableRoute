@@ -120,7 +120,7 @@ You will need to create your own transitiong view, for example (`Transition` par
 (alternatively you can use the default one provided by the component called `TransitionableLayoutComponent` but you will need to handle the `Transition' cascading parameter and probably wrap each page in it's own containing component.  You are free to implement how you like but the cascading parameter is your starting point to prepare for transitioning.)
 
 ### Optional example JavaScript Interop usage
-You can optional create an implementation of `IRouteTransitionInvoker` and save it where you like, perhaps in `Shared` folder and make sure it is registered with DI. 
+You can optionally create an implementation of `IRouteTransitionInvoker` and save it where you like, perhaps in `Shared` folder and make sure it is registered with DI. 
 ```C#
 using BlazorTransitionableRoute;
 using Microsoft.JSInterop;
