@@ -22,6 +22,9 @@ This version simplifies the implemention of this component and also your usage o
 
 *for v1 documentation see [here](README-V1.md)*
 
+## Roadmap
+* Option to create new route data when navigating and not persist previous state.
+
 ## Demos
 See the demos for how to implement.
 * The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour.
