@@ -1,4 +1,6 @@
-﻿@page "/counter"
+﻿@inherits TransitionableLayoutComponent
+
+@page "/counter"
 
 <h1>Counter</h1>
 
@@ -12,5 +14,21 @@
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (!Transition.IntoView)
+        {
+            await Task.Delay(1000);
+            ResetPage();
+        }
+    }
+
+    private void ResetPage()
+    {
+        currentCount = 0;
     }
 }
