@@ -1,3 +1,6 @@
 ﻿<CascadingValue Value="Transition">
-    @ChildContent
+    @if (!isHidden)
+    {
+        @ChildContent
+    }
 </CascadingValue>

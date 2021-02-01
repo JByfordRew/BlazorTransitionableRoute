@@ -41,6 +41,7 @@ namespace BlazorTransitionableRoute
         internal bool invokesStateChanged = true;
 
         private bool isActive = true;
+        internal bool isHidden = false;
         private RouteData lastRouteData;
         public TransitionableRoutePrimary()
         {
@@ -93,6 +94,9 @@ namespace BlazorTransitionableRoute
         [Parameter]
         public Transition Transition { get; set; }
 
+        [Parameter]
+        public bool ClearState { get; set; } = false;
+
         [JSInvokable]
         public async Task Navigate(bool backwards)
         {
@@ -105,6 +109,11 @@ namespace BlazorTransitionableRoute
 
             Transition = Transition.Create(routeDateToUse, isActive, backwards, firstRender);
 
+            if (ClearState)
+            {
+                if (isActive) isHidden = false;
+            }
+
             if (invokesStateChanged)
             {
                 StateHasChanged();
@@ -116,6 +125,20 @@ namespace BlazorTransitionableRoute
             await Task.Yield();
 
             await TransitionInvoker.InvokeRouteTransitionAsync(backwards);
+        }
+
+        [JSInvokable]
+        public async Task Hide()
+        {
+            if (ClearState && isActive)
+            {
+                isHidden = true;
+
+                if (invokesStateChanged)
+                {
+                    StateHasChanged();
+                }
+            }
         }
     }
 }
