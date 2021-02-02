@@ -87,15 +87,16 @@ window.blazorTransitionableRoute = {
             window.addEventListener('back', event => {
                 isBackwards = true;
             });
-
-            document.body.addEventListener("animationend", event => {
-                if (event.target.classList.contains("b-Transitionable-route")) {
-                    window.blazorTransitionableRoute.dotnetHelperPrimary.invokeMethodAsync('Hide');
-                    window.blazorTransitionableRoute.dotnetHelperSecondary.invokeMethodAsync('Hide');
-                }
-            });
+            document.body.addEventListener("webkitAnimationEnd", this.AddAnimationEventsListner);
+            document.body.addEventListener("animationend", this.AddAnimationEventsListner);
         } else {
             window.blazorTransitionableRoute.dotnetHelperSecondary = dotnetHelper;
+        }
+    },
+    AddAnimationEventsListner(e) {
+        if (event.target.classList.contains("b-Transitionable-route")) {
+            window.blazorTransitionableRoute.dotnetHelperPrimary.invokeMethodAsync('Hide');
+            window.blazorTransitionableRoute.dotnetHelperSecondary.invokeMethodAsync('Hide');
         }
     }
 }
