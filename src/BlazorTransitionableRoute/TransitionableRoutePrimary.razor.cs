@@ -93,6 +93,9 @@ namespace BlazorTransitionableRoute
         [Parameter]
         public Transition Transition { get; set; }
 
+        [Parameter]
+        public bool ForgetStateOnTransition { get; set; } = false;
+
         [JSInvokable]
         public async Task Navigate(bool backwards)
         {
@@ -110,12 +113,19 @@ namespace BlazorTransitionableRoute
                 StateHasChanged();
             }
 
+            var canResetStateOnTransitionOut = ForgetStateOnTransition && !isActive;
+
             isActive = !isActive;
             lastRouteData = RouteData;
 
             await Task.Yield();
 
             await TransitionInvoker.InvokeRouteTransitionAsync(backwards);
+
+            if (canResetStateOnTransitionOut)
+            {
+                Transition = Transition.Create(routeData:null, Transition.IntoView, Transition.Backwards, Transition.FirstRender);
+            }
         }
     }
 }

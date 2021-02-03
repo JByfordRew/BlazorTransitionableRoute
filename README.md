@@ -8,22 +8,25 @@ Sometimes you need to show transitions between route but Blazor by default only 
 
 ## How it works?
 Having two view layouts means we can remember the previous route but we cannot simply overwrite them, they must be preserved so we do not lose browser state like scroll position etc. This solution handles the route views and knows when to call the transition implementation you provide to it.  It also works with the browser navigation buttons.
-If you need to had in app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
+If you need to handle in app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
 This is as simple a solution I could arrive at.  If there is another simpler one please let me know.
 
+## Version 2.1.0
+Addition of `ForgetStateOnTransition` option to reset page state when returning to previous route via navigation. 
+
 ## Version 2.0.0
-This version simplifies the implemention of this component and also your usage of it. You can now implement transition behaviour directly with Blazor code and not having to rely on JavaScript Interop to do so.  You can also adjust transition behaviour on first render via Transition.FirstRender and you can get the direction from Transition.Backwards.
+This version simplifies the implemention of this component and also your usage of it. You can now implement transition behaviour directly with Blazor code and not having to rely on JavaScript Interop to do so.  You can also adjust transition behaviour on first render via `Transition.FirstRender` and you can get the direction from `Transition.Backwards`.
 
 ### Breaking changes to V1 
-* TransitioningIn is now Transition.IntoView (Transition now provides more detail including direction and if first render).
-* Remove DI for BlazorTransitionableRoute.NavigationState and BlazorTransitionableRoute.NavigationStateHandler as these are no longer present.  
-  * At minimum you need this DI registration: IRouteTransitionInvoker implemented by DefaultRouteTransitionInvoker. 
-* IRouteTransitionInvoker replaces parameter of BrowserNavigationDirection for Backwards (bool) value.
+* `TransitioningIn` is now `Transition.IntoView` (Transition now provides more detail including direction and if first render).
+* Remove DI for `BlazorTransitionableRoute.NavigationState` and `BlazorTransitionableRoute.NavigationStateHandler` as these are no longer present.  
+  * At minimum you need this DI registration: `IRouteTransitionInvoker` implemented by `DefaultRouteTransitionInvoker`. 
+* `IRouteTransitionInvoker` replaces parameter of `BrowserNavigationDirection` for `Backwards` (bool) value.
 
 *for v1 documentation see [here](README-V1.md)*
 
 ## Roadmap
-* Option to create new route data when navigating and not persist previous state.
+* Update demos and library to latest Blazor version.
 
 ## Demos
 See the demos for how to implement.
@@ -72,10 +75,10 @@ Modify the App.razor file to take advantage of the transitionable route layouts 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <LayoutView Layout="@typeof(MainLayout)">
-            <TransitionableRoutePrimary RouteData="@routeData">
+            <TransitionableRoutePrimary RouteData="@routeData" ForgetStateOnTransition="false">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRoutePrimary>
-            <TransitionableRouteSecondary RouteData="@routeData">
+            <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="false">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRouteSecondary>
         </LayoutView>
