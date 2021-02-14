@@ -26,7 +26,8 @@ This version simplifies the implemention of this component and also your usage o
 *for v1 documentation see [here](README-V1.md)*
 
 ## Roadmap
-* Update demos and library to latest Blazor version.
+1. Add 'FromType' and 'ToType' allowing custom transitions for more complex UI, for example master/detail transitions. Your implementation could then be a simple registry of transition type combinations mapped to animation styles.
+1. Update demos and library to latest Blazor version.
 
 ## Demos
 See the demos for how to implement.
