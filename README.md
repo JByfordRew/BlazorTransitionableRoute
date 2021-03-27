@@ -99,23 +99,9 @@ You will need to create your own transitiong view, for example (`Transition` par
 ```html
 @inherits TransitionableLayoutComponent
 
-<div class="transition @transitioningClass">
+<div class="@transitioningClass">
     @Body
 </div>
-
-<style>
-    .transition {
-        position: absolute;
-    }
-</style>
-
-@if (!Transition.FirstRender) {
-<style>
-    .transition-in {
-        opacity: 0;
-    }
-</style>
-}
 
 @code {
     private string transitioningDirection => Transition.Backwards ? "Up" : "Down";
