@@ -1,0 +1,47 @@
+﻿
+@inherits TransitionableLayoutComponent
+@using BlazorTransitionableRouteDemoWasm.Client.Pages
+
+<div class="transition @transitioningClass @(Transition.IntoView ? "transitioned" : "transitioned_behind")">
+    @Body
+</div>
+
+<style>
+    .transition {
+        position: absolute;
+    }
+
+    .transitioned {
+        z-index: 1;
+    }
+
+    .transitioned_behind {
+        z-index: 0;
+    }
+</style>
+
+@code {
+    private string transitioningClass => Transition.FirstRender
+        ? "" : $"animate__{transitioningEffect()} animate__faster animate__animated";
+
+    private string transitioningEffect()
+    {
+        if (customTransitions.TryGetValue((TransitionType.fromType, TransitionType.toType), out var custom))
+        {
+            return Transition.IntoView ? custom.effectIn : custom.effectOut;
+        }
+        else
+        {
+            var effect = Transition.IntoView ? "fadeIn" : "fadeOut";
+            var direction = Transition.Backwards ? "Up" : "Down";
+            return effect + direction;
+        }
+    }
+
+    private Dictionary<(Type from, Type to), (string effectOut, string effectIn)> customTransitions =
+        new Dictionary<(Type from, Type to), (string effectOut, string effectIn)>
+        {
+            { (typeof(FetchData), typeof(WeatherDetail)), ( "fadeOutLeft", "fadeInRight" ) },
+            { (typeof(WeatherDetail), typeof(FetchData)), ( "fadeOutRight", "fadeInLeft" ) }
+        };
+}
