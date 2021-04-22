@@ -20,16 +20,19 @@ else
                 <th>Temp. (C)</th>
                 <th>Temp. (F)</th>
                 <th>Summary</th>
+                <th>Detail</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var forecast in forecasts)
             {
+                var detailUrl = $"weatherdetail/{forecast.Date.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}/{forecast.TemperatureC}/{forecast.Summary}";
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
+                    <td><NavLink href=@detailUrl>Detail</NavLink></td>
                 </tr>
             }
         </tbody>

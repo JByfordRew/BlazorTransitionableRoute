@@ -1,5 +1,8 @@
 ﻿using BlazorTransitionableRoute;
+using BlazorTransitionableRouteDemoServer.Pages;
 using Microsoft.JSInterop;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BlazorTransitionableRouteDemoServer.Shared
@@ -15,7 +18,23 @@ namespace BlazorTransitionableRouteDemoServer.Shared
 
         public async Task InvokeRouteTransitionAsync(Transition transition)
         {
-            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", transition.Backwards);
+            var effectOut = transition.Backwards ? "fadeOutUp" : "fadeOutDown";
+            var effectIn = transition.Backwards ? "fadeInUp" : "fadeInDown";
+
+            if (customTransitions.TryGetValue((transition.SwitchedRouteData.PageType, transition.RouteData.PageType), out var custom))
+            {
+                effectOut = custom.effectOut;
+                effectIn = custom.effectIn;
+            }
+
+            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", effectOut, effectIn);
         }
+
+        private Dictionary<(Type from, Type to), (string effectOut, string effectIn)> customTransitions =
+            new Dictionary<(Type from, Type to), (string effectOut, string effectIn)>
+            {
+                { (typeof(FetchData), typeof(WeatherDetail)), ( "fadeOutLeft", "fadeInRight" ) },
+                { (typeof(WeatherDetail), typeof(FetchData)), ( "fadeOutRight", "fadeInLeft" ) }
+            };
     }
 }

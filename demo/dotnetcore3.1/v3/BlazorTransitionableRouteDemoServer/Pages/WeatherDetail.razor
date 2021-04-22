@@ -1,0 +1,18 @@
+﻿@page  "/weatherdetail/{Date}/{Temp}/{Summary}"
+
+<h3>WeatherDetail</h3>
+
+<p>Date: @Date</p>
+<p>Temp: @Temp</p>
+<p>Summary: @Summary</p>
+
+@code {
+    [Parameter]
+    public string Date { get; set; }
+
+    [Parameter]
+    public string Temp { get; set; }
+
+    [Parameter]
+    public string Summary { get; set; }
+}
