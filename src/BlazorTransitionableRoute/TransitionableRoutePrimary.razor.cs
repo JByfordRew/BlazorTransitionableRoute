@@ -104,9 +104,9 @@ namespace BlazorTransitionableRoute
 
         internal async Task Navigate(bool backwards, bool firstRender)
         {
-            var routeDateToUse = isActive ? RouteData : lastRouteData;
+            var routeDataToUse = isActive ? RouteData : lastRouteData;
 
-            Transition = Transition.Create(routeDateToUse, isActive, backwards, firstRender);
+            Transition = Transition.Create(routeDataToUse, isActive, backwards, firstRender);
 
             if (invokesStateChanged)
             {
