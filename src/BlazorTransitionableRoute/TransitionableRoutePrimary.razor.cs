@@ -74,13 +74,6 @@ namespace BlazorTransitionableRoute
                 "window.blazorTransitionableRoute.init",
                 DotNetObjectReference.Create(this), isActive);
 
-            if (!isActive)
-            {
-                RouteData = null;
-            }
-
-            lastRouteData = RouteData;
-
             await Navigate(backwards: false, firstRender: true);
         }
 
