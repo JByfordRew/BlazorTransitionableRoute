@@ -1,0 +1,24 @@
+﻿@inherits TransitionableLayoutComponent
+
+<div class="transition @transitioningClass">
+    @Body
+</div>
+
+<style>
+    .transition {
+        position: absolute;
+    }
+</style>
+
+@if (!Transition.FirstRender)
+{
+<style>
+    .transition-in {
+        opacity: 0;
+    }
+</style>
+}
+
+@code {
+    private string transitioningClass => Transition.IntoView ? "transition-in" : "transition-out";
+}
