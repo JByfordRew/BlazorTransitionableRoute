@@ -6,16 +6,18 @@ namespace BlazorTransitionableRouteTest
     internal class StubRouteTransitionInvoker : IRouteTransitionInvoker
     {
         internal bool invoked;
-        internal bool backwards;
+        internal Transition transition;
+
         internal void Reset()
         {
             invoked = false;
+            transition = null;
         }
 
-        public Task InvokeRouteTransitionAsync(bool backwards)
+        public Task InvokeRouteTransitionAsync(Transition transition)
         {
             this.invoked = true;
-            this.backwards = backwards;
+            this.transition = transition;
             return Task.CompletedTask;
         }
     }

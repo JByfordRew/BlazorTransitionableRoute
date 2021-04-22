@@ -103,9 +103,23 @@ namespace BlazorTransitionableRouteTest
             return this;
         }
 
+        internal TransitionableRouteFixture SwitchedPrimaryRouteDataIs(RouteData routeData)
+        {
+            this.primaryTransitionableRoute.Transition.SwitchedRouteData
+                .Should().BeEquivalentTo(routeData);
+            return this;
+        }
+
         internal TransitionableRouteFixture SecondaryRouteDataIs(RouteData routeData)
         {
             this.secondaryTransitionableRoute.Transition.RouteData
+                .Should().BeEquivalentTo(routeData);
+            return this;
+        }
+        
+        internal TransitionableRouteFixture SwitchedSecondaryRouteDataIs(RouteData routeData)
+        {
+            this.secondaryTransitionableRoute.Transition.SwitchedRouteData
                 .Should().BeEquivalentTo(routeData);
             return this;
         }
@@ -125,7 +139,6 @@ namespace BlazorTransitionableRouteTest
 
             this.secondaryTransitionableRoute.Transition.IntoView.Should().BeFalse();
             this.secondaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
-            CheckInvokedTransition(this.transitionInvoker2);
 
             this.isBackwards = false;
 
@@ -136,7 +149,6 @@ namespace BlazorTransitionableRouteTest
         {
             this.primaryTransitionableRoute.Transition.IntoView.Should().BeFalse();
             this.primaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
-            CheckInvokedTransition(this.transitionInvoker1);
 
             this.secondaryTransitionableRoute.Transition.IntoView.Should().BeTrue();
             this.secondaryTransitionableRoute.Transition.Backwards.Should().Be(isBackwards);
@@ -148,7 +160,7 @@ namespace BlazorTransitionableRouteTest
         private void CheckInvokedTransition(StubRouteTransitionInvoker stubRouteTransitionInvoker)
         {
             stubRouteTransitionInvoker.invoked.Should().BeTrue();
-            stubRouteTransitionInvoker.backwards.Should().Be(this.isBackwards);
+            stubRouteTransitionInvoker.transition.Backwards.Should().Be(this.isBackwards);
             stubRouteTransitionInvoker.Reset();
         }
     }

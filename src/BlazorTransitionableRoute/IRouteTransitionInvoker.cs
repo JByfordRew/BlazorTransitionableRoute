@@ -26,6 +26,6 @@ namespace BlazorTransitionableRoute
     /// </summary>
     public interface IRouteTransitionInvoker
     {
-        Task InvokeRouteTransitionAsync(bool backwards);
+        Task InvokeRouteTransitionAsync(Transition transition);
     }
 }

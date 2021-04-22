@@ -7,18 +7,20 @@ namespace BlazorTransitionableRoute
 {
     public class Transition
     {
-        private Transition(RouteData routeData, bool intoView, bool backwards, bool firstRender)
+        private Transition(RouteData routeData, RouteData switchedRouteData, bool intoView, bool backwards, bool firstRender)
         {
-            RouteData = routeData;
+            this.RouteData = routeData;
+            this.SwitchedRouteData = switchedRouteData;
             this.IntoView = intoView;
             this.Backwards = backwards;
             this.FirstRender = firstRender;
         }
 
-        public static Transition Create(RouteData routeData, bool intoView, bool backwards, bool firstRender)
-            => new Transition(routeData, intoView, backwards, firstRender);
+        public static Transition Create(RouteData routeData, RouteData switchedRouteData, bool intoView, bool backwards, bool firstRender)
+            => new Transition(routeData, switchedRouteData, intoView, backwards, firstRender);
 
         public RouteData RouteData { get; }
+        public RouteData SwitchedRouteData { get; }
         public bool IntoView { get; }
         public bool Backwards { get; }
         public bool FirstRender { get; }

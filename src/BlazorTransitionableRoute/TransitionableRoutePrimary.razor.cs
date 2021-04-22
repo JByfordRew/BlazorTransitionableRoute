@@ -99,7 +99,9 @@ namespace BlazorTransitionableRoute
         {
             var routeDataToUse = isActive ? RouteData : lastRouteData;
 
-            Transition = Transition.Create(routeDataToUse, isActive, backwards, firstRender);
+            var switchedRouteData = (isActive ? lastRouteData : RouteData) ?? RouteData;
+
+            Transition = Transition.Create(routeDataToUse, switchedRouteData, isActive, backwards, firstRender);
 
             if (invokesStateChanged)
             {
@@ -108,16 +110,19 @@ namespace BlazorTransitionableRoute
 
             var canResetStateOnTransitionOut = ForgetStateOnTransition && !isActive;
 
+            await Task.Yield();
+
+            if (isActive)
+            {
+                await TransitionInvoker.InvokeRouteTransitionAsync(Transition);
+            }
+
             isActive = !isActive;
             lastRouteData = RouteData;
 
-            await Task.Yield();
-
-            await TransitionInvoker.InvokeRouteTransitionAsync(backwards);
-
             if (canResetStateOnTransitionOut)
             {
-                Transition = Transition.Create(routeData:null, Transition.IntoView, Transition.Backwards, Transition.FirstRender);
+                Transition = Transition.Create(routeData:null, switchedRouteData:null, Transition.IntoView, Transition.Backwards, Transition.FirstRender);
             }
         }
     }

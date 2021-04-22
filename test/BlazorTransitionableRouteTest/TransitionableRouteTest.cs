@@ -14,7 +14,9 @@ namespace BlazorTransitionableRouteTest
                 .And.SecondaryTransitionableRoute()
                 .When.UpdateRoute(routeData)
                 .Then.PrimaryRouteDataIs(routeData)
+                .And.SwitchedPrimaryRouteDataIs(routeData)
                 .And.SecondaryRouteDataIs(null)
+                .And.SwitchedSecondaryRouteDataIs(routeData)
                 .And.PrimaryRouteHasTransition()
                 .And.SecondaryViewIsNotRendered();
         }
@@ -31,7 +33,9 @@ namespace BlazorTransitionableRouteTest
                 .And.UpdateRoute(firstRouteData)
                 .When.UpdateRoute(secondRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteHasTransition();
         }
 
@@ -49,7 +53,9 @@ namespace BlazorTransitionableRouteTest
                 .And.UpdateRoute(secondRouteData)
                 .When.UpdateRoute(thirdRouteData)
                 .Then.PrimaryRouteDataIs(thirdRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(thirdRouteData)
                 .And.PrimaryRouteHasTransition();
         }
 
@@ -67,7 +73,9 @@ namespace BlazorTransitionableRouteTest
                 .And.NavigateBack()
                 .And.UpdateRoute(firstRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(firstRouteData)
                 .And.PrimaryRouteHasTransition();
         }
 
@@ -87,7 +95,9 @@ namespace BlazorTransitionableRouteTest
                 .And.UpdateRoute(secondRouteData)
                 .And.UpdateRoute(firstRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(firstRouteData)
                 .And.PrimaryRouteHasTransition();
         }
 
@@ -107,7 +117,9 @@ namespace BlazorTransitionableRouteTest
                 .And.UpdateRoute(secondRouteData)
                 .When.UpdateRoute(thirdRouteData)
                 .Then.PrimaryRouteDataIs(thirdRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(thirdRouteData)
                 .And.PrimaryRouteHasTransition();
         }
 
@@ -123,7 +135,9 @@ namespace BlazorTransitionableRouteTest
                 .And.RouteHasNotChanged()
                 .When.UpdateRoute(firstRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
+                .And.SwitchedPrimaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteDataIs(null)
+                .And.SwitchedSecondaryRouteDataIs(firstRouteData)
                 .And.PrimaryRouteHasTransition()
                 .And.SecondaryViewIsNotRendered();
         }
@@ -142,7 +156,9 @@ namespace BlazorTransitionableRouteTest
                 .And.RouteHasNotChanged()
                 .When.UpdateRoute(secondRouteData)
                 .Then.PrimaryRouteDataIs(firstRouteData)
+                .And.SwitchedPrimaryRouteDataIs(secondRouteData)
                 .And.SecondaryRouteDataIs(secondRouteData)
+                .And.SwitchedSecondaryRouteDataIs(firstRouteData)
                 .And.SecondaryRouteHasTransition();
         }
 
@@ -158,7 +174,9 @@ namespace BlazorTransitionableRouteTest
                 .And.UpdateRoute(routeDataVanilla)
                 .When.UpdateRoute(routeDataCustom)
                 .Then.PrimaryRouteDataIs(routeDataVanilla)
+                .And.SwitchedPrimaryRouteDataIs(routeDataCustom)
                 .And.SecondaryRouteDataIs(routeDataCustom)
+                .And.SwitchedSecondaryRouteDataIs(routeDataVanilla)
                 .And.SecondaryRouteHasTransition();
         }
     }
