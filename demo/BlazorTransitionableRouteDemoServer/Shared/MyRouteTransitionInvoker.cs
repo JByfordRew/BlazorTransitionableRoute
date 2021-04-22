@@ -13,9 +13,9 @@ namespace BlazorTransitionableRouteDemoServer.Shared
             this.jsRuntime = jsRuntime;
         }
 
-        public async Task InvokeRouteTransitionAsync(bool backwards)
+        public async Task InvokeRouteTransitionAsync(Transition transition)
         {
-            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", backwards);
+            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", transition.Backwards);
         }
     }
 }
