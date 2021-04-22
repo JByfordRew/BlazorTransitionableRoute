@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj" />
+    <ProjectReference Include="..\..\..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj" />
   </ItemGroup>
 
 </Project>
