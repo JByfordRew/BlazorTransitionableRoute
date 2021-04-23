@@ -119,10 +119,8 @@ This example code shows the Blazor coded implementation.  For jsInterop see the 
 You can find *[detailed documentation on example usage here](README-EXAMPLE.md)*
 
 The demos show examples of the two implementation options. Both methods are interchangeable for Web Assembly and Server.
-* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour. 
-  * *[see commit for transition implementation](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/ee2de3b564f7891932ce9e7e96cc58b86a32f94d)*
-* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour. 
-  * *[see commit for transition implementation](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/b11dcdd3733466fdaca1769d93d0bd062fb7a1d9)*
+* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour. *[see commit for transition implementation](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/ee2de3b564f7891932ce9e7e96cc58b86a32f94d)*
+* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour. *[see commit for transition implementation](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/b11dcdd3733466fdaca1769d93d0bd062fb7a1d9)*
 
 ---
 
