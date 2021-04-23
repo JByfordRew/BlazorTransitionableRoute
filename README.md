@@ -108,8 +108,8 @@ This example code shows the Blazor coded implementation.  For jsInterop see the 
 
 * This library does not provide animation styles, it simply provides the means to hook into how and when to trigger them.
 * If you need to remember page state, to keep track of scroll position for example, you will need to set `ForgetStateOnTransition` to `false`
+  * If so, depending on your transition library used, you will need to use z-order, pointer-events, offset position, or other means, of the layout views to cope with interacting with the current route where the switched route is still present but hidden.
 * If you need to handle in-app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
-* Depending on your transition library used, you will need to handle the z-order of the layout views (or by other means) to cope with interacting with the current route
 
 </details>
 
@@ -125,6 +125,8 @@ The demos show examples of the two implementation options. Both methods are inte
 ---
 
 ## Version History
+* Version 3.1.0
+  * Addition of `TransitionDurationMilliseconds` to clear switched route view after transition.  Only when `ForgetStateOnTransition` is set to true.
 * Version 3.0.0
   * Implemented new `Transition.SwitchedRouteData` along with `Transition.RouteData` to provide means to perform custom transitions. i.e. parent/child views.
   * Demos in ASPNET Core 5.0
@@ -138,6 +140,6 @@ The demos show examples of the two implementation options. Both methods are inte
 * Version 1.0.0 - *[documentation and v2 breaking changes](README-V1.md)*
 
 ### Roadmap
-1. Handle disabling of interactions of the non active route layout view
 1. Make `ForgetStateOnTransition` configurable to specific page types
+1. Potentially move increasing numbers of parameter settings to configuration options
 1. Upgrade component library to ASP.NET Core 5.0 or above to include Javascript isolation and other possible improvements (when it is appropriate to do so)
