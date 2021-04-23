@@ -1,12 +1,6 @@
 # BlazorTransitionableRoute
 Allows current and previous route to exist enabling transition animations of UI/UX design systems.
 
-### Breaking changes to V1 moving to V2
-* `TransitioningIn` is now `Transition.IntoView` (Transition now provides more detail including direction and if first render).
-* Remove DI for `BlazorTransitionableRoute.NavigationState` and `BlazorTransitionableRoute.NavigationStateHandler` as these are no longer present.  
-  * At minimum you need this DI registration: `IRouteTransitionInvoker` implemented by `DefaultRouteTransitionInvoker`. 
-* `IRouteTransitionInvoker` replaces parameter of `BrowserNavigationDirection` for `Backwards` (bool) value.
-
 ## What it does?
 Sometimes you need to show transitions between route but Blazor by default only allows one.  This provides an ability to remember the last route and allow you to perform transitions out and in on the old and new route views rendered.
 
@@ -17,7 +11,31 @@ Having two view layouts means we can remember the previous route but we cannot s
 If you need to handle in app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
 This is as simple a solution I could arrive at.  If there is another simpler one please let me know.
 
+## Version 2.1.0
+Addition of `ForgetStateOnTransition` option to reset page state when returning to previous route via navigation. 
+
+## Version 2.0.0
+This version simplifies the implemention of this component and also your usage of it. You can now implement transition behaviour directly with Blazor code and not having to rely on JavaScript Interop to do so.  You can also adjust transition behaviour on first render via `Transition.FirstRender` and you can get the direction from `Transition.Backwards`.
+
+### Breaking changes to V1 
+* `TransitioningIn` is now `Transition.IntoView` (Transition now provides more detail including direction and if first render).
+* Remove DI for `BlazorTransitionableRoute.NavigationState` and `BlazorTransitionableRoute.NavigationStateHandler` as these are no longer present.  
+  * At minimum you need this DI registration: `IRouteTransitionInvoker` implemented by `DefaultRouteTransitionInvoker`. 
+* `IRouteTransitionInvoker` replaces parameter of `BrowserNavigationDirection` for `Backwards` (bool) value.
+
+*for v1 documentation see [here](README-V1.md)*
+
+## Roadmap
+1. Add a property (could be previous route data) allowing custom transitions for more complex UI, for example master/detail transitions. Your implementation could then be a simple registry of transition type combinations mapped to animation styles.
+1. Update demos and library to latest Blazor version.
+1. Major change to a living route history implementation allowing deeper navigation.
+
+## Demos
 See the demos for how to implement.
+* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour.
+* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour.
+
+Both methods are interchangeable for Wasm and Server.
 
 ## Installation
 
@@ -48,10 +66,9 @@ Add reference to _Imports.razor file
 
 For client-side and server-side Blazor - add registrations for the dependency injection framework in `Program.cs` or `Startup.cs`, for example
 ```C#
-builder.Services.AddScoped<BlazorTransitionableRoute.NavigationState>();
-builder.Services.AddScoped<BlazorTransitionableRoute.NavigationStateHandler>();
-builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, RouteTransitionInvoker>();
+builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, MyRouteTransitionInvoker>();
 ```
+At a minimum if you implement transition behaviour via Blazor code and not custom JavaScript interop then you need to register the `BlazorTransitionableRoute.DefaultRouteTransitionInvoker`.
 
 ### A change to routing approach
 
@@ -60,10 +77,10 @@ Modify the App.razor file to take advantage of the transitionable route layouts 
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <LayoutView Layout="@typeof(MainLayout)">
-            <TransitionableRoutePrimary RouteData="@routeData">
+            <TransitionableRoutePrimary RouteData="@routeData" ForgetStateOnTransition="false">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRoutePrimary>
-            <TransitionableRouteSecondary RouteData="@routeData">
+            <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="false">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRouteSecondary>
         </LayoutView>
@@ -78,31 +95,26 @@ Modify the App.razor file to take advantage of the transitionable route layouts 
 
 ### Example usage
 
-You will need to create your own transitiong view, for example (`TransitioningIn` is provided by the inherited `TransitionableLayoutComponent`)
+You will need to create your own transitiong view, for example (`Transition` parameter is provided by the inherited `TransitionableLayoutComponent`)
 ```html
 @inherits TransitionableLayoutComponent
 
-<div class="transition @transitioningClass">
+<div class="@transitioningClass">
     @Body
 </div>
 
-<style>
-    .transition {
-        position: absolute;
-    }
-
-    .transition-in {
-        opacity: 0;
-    }
-</style>
-
 @code {
-    private string transitioningClass => TransitioningIn ? "transition-in" : "transition-out";
+    private string transitioningDirection => Transition.Backwards ? "Up" : "Down";
+
+    private string transitioningClass => Transition.FirstRender ? "" : Transition.IntoView
+        ? $"animate__fadeIn{transitioningDirection} animate__faster animate__animated"
+         : $"animate__fadeOut{transitioningDirection} animate__faster animate__animated";
 }
 ```
-(alternatively you can use the default one provided by the component called `TransitionableLayoutComponent` but you will need to handle the `TransitioningIn' cascading parameter and probably wrap each page in it's own containing component.  You are free to implement how you like but the cascading parameter is your starting point to prepare for transitioning.)
+(alternatively you can use the default one provided by the component called `TransitionableLayoutComponent` but you will need to handle the `Transition' cascading parameter and probably wrap each page in it's own containing component.  You are free to implement how you like but the cascading parameter is your starting point to prepare for transitioning.)
 
-You will need to create an implementation of `IRouteTransitionInvoker` and save it where you like, perhaps in `Shared` folder. 
+### Optional example JavaScript Interop usage
+You can optionally create an implementation of `IRouteTransitionInvoker` and save it where you like, perhaps in `Shared` folder and make sure it is registered with DI. 
 ```C#
 using BlazorTransitionableRoute;
 using Microsoft.JSInterop;
@@ -119,10 +131,9 @@ namespace BlazorTransitionableRouteDemoWasm.Client.Shared
             this.jsRuntime = jsRuntime;
         }
 
-        public async Task InvokeRouteTransitionAsync(BrowserNavigationDirection navigationDirection)
+        public async Task InvokeRouteTransitionAsync(bool backwards)
         {
-            var isNavigatingBack = navigationDirection == BrowserNavigationDirection.Backward;
-            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", isNavigatingBack);
+            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", backwards);
         }
     }
 }

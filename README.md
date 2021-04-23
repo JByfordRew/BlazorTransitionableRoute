@@ -1,41 +1,20 @@
 # BlazorTransitionableRoute
-Allows current and previous route to exist enabling transition animations of UI/UX design systems.
+Allows current and previous route to exist enabling page transition animations.
 
 ## What it does?
-Sometimes you need to show transitions between route but Blazor by default only allows one.  This provides an ability to remember the last route and allow you to perform transitions out and in on the old and new route views rendered.
+Sometimes you need to show transitions between page routes but Blazor, by default, only allows one.  This Razor component library provides the ability to remember the last route and allows you to perform transitions out and in, on the old and new route views.  You can also use this information to contextually perform different transitions based on the route page types being transitioned.
 
 ![Demo](demo/BlazorTransitionableRouteDemo.gif)
 
-## How it works?
-Having two view layouts means we can remember the previous route but we cannot simply overwrite them, they must be preserved so we do not lose browser state like scroll position etc. This solution handles the route views and knows when to call the transition implementation you provide to it.  It also works with the browser navigation buttons.
-If you need to handle in app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
-This is as simple a solution I could arrive at.  If there is another simpler one please let me know.
+## Feature Summary
+* Two transition implementation options; Blazor coded or jsInterop
+* Transition data provided allowing different transitions based on context
+* Optionally remember previous page state
+* Works with browser navigation history, forward and back 
+* Tested with .NET Core 3.1 and ASP.NET Core 5.0 
+* Very simple to use, only a couple of file changes required
 
-## Version 2.1.0
-Addition of `ForgetStateOnTransition` option to reset page state when returning to previous route via navigation. 
-
-## Version 2.0.0
-This version simplifies the implemention of this component and also your usage of it. You can now implement transition behaviour directly with Blazor code and not having to rely on JavaScript Interop to do so.  You can also adjust transition behaviour on first render via `Transition.FirstRender` and you can get the direction from `Transition.Backwards`.
-
-### Breaking changes to V1 
-* `TransitioningIn` is now `Transition.IntoView` (Transition now provides more detail including direction and if first render).
-* Remove DI for `BlazorTransitionableRoute.NavigationState` and `BlazorTransitionableRoute.NavigationStateHandler` as these are no longer present.  
-  * At minimum you need this DI registration: `IRouteTransitionInvoker` implemented by `DefaultRouteTransitionInvoker`. 
-* `IRouteTransitionInvoker` replaces parameter of `BrowserNavigationDirection` for `Backwards` (bool) value.
-
-*for v1 documentation see [here](README-V1.md)*
-
-## Roadmap
-1. Add a property (could be previous route data) allowing custom transitions for more complex UI, for example master/detail transitions. Your implementation could then be a simple registry of transition type combinations mapped to animation styles.
-1. Update demos and library to latest Blazor version.
-1. Major change to a living route history implementation allowing deeper navigation.
-
-## Demos
-See the demos for how to implement.
-* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour.
-* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour.
-
-Both methods are interchangeable for Wasm and Server.
+---
 
 ## Installation
 
@@ -49,11 +28,13 @@ or
 dotnet add package BlazorTransitionableRoute
 ```
 
+---
+
 ## Usage
 
 ### Common component steps
 
-For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section) 
+For client-side and server-side Blazor - add script section to index.html or _Host.cshtml
 
 ```html
 <script src="_content/BlazorTransitionableRoute/jsInterop.js"></script>
@@ -68,19 +49,24 @@ For client-side and server-side Blazor - add registrations for the dependency in
 ```C#
 builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, MyRouteTransitionInvoker>();
 ```
-At a minimum if you implement transition behaviour via Blazor code and not custom JavaScript interop then you need to register the `BlazorTransitionableRoute.DefaultRouteTransitionInvoker`.
+*Or `BlazorTransitionableRoute.DefaultRouteTransitionInvoker` if you implement transitions via Blazor code and not via jsInterop.*
 
 ### A change to routing approach
+You will need to change `App.razor` to use the newly provided `TransitionableRoutePrimary/Secondary` components
+
+<details>
+<summary>Modify the App.razor file</summary>
 
 Modify the App.razor file to take advantage of the transitionable route layouts and view.  This means moving the `MainLayout` to be more explicit in the app router and providing a more container like `MyViewLayout` as the default layouts. You can see below the simple use of primary and secondary route views. The `TransitionableRoutePrimary / Secondary` modify the `RouteData` passed to each inner `TransitionableRouteView` based on the active state, which is swapped after each navigation to preserve component instances.
+
 ```html
 <Router AppAssembly="@typeof(Program).Assembly">
     <Found Context="routeData">
         <LayoutView Layout="@typeof(MainLayout)">
-            <TransitionableRoutePrimary RouteData="@routeData" ForgetStateOnTransition="false">
+            <TransitionableRoutePrimary RouteData="@routeData" ForgetStateOnTransition="true">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRoutePrimary>
-            <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="false">
+            <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="true">
                 <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
             </TransitionableRouteSecondary>
         </LayoutView>
@@ -92,10 +78,12 @@ Modify the App.razor file to take advantage of the transitionable route layouts 
     </NotFound>
 </Router>
 ```
+</details>
 
-### Example usage
+<details>
+<summary>Create your own transitiong view</summary>
 
-You will need to create your own transitiong view, for example (`Transition` parameter is provided by the inherited `TransitionableLayoutComponent`)
+This example code shows the Blazor coded implementation.  For jsInterop see the example usage section below.
 ```html
 @inherits TransitionableLayoutComponent
 
@@ -111,77 +99,49 @@ You will need to create your own transitiong view, for example (`Transition` par
          : $"animate__fadeOut{transitioningDirection} animate__faster animate__animated";
 }
 ```
-(alternatively you can use the default one provided by the component called `TransitionableLayoutComponent` but you will need to handle the `Transition' cascading parameter and probably wrap each page in it's own containing component.  You are free to implement how you like but the cascading parameter is your starting point to prepare for transitioning.)
+*`Transition` parameter is provided by the inherited `TransitionableLayoutComponent`*
 
-### Optional example JavaScript Interop usage
-You can optionally create an implementation of `IRouteTransitionInvoker` and save it where you like, perhaps in `Shared` folder and make sure it is registered with DI. 
-```C#
-using BlazorTransitionableRoute;
-using Microsoft.JSInterop;
-using System.Threading.Tasks;
+</details>
 
-namespace BlazorTransitionableRouteDemoWasm.Client.Shared
-{
-    public class RouteTransitionInvoker : IRouteTransitionInvoker
-    {
-        private readonly IJSRuntime jsRuntime;
+<details>
+<summary>Notes on usage</summary>
 
-        public RouteTransitionInvoker(IJSRuntime jsRuntime)
-        {
-            this.jsRuntime = jsRuntime;
-        }
+* This library does not provide animation styles, it simply provides the means to hook into how and when to trigger them.
+* If you need to remember page state, to keep track of scroll position for example, you will need to set `ForgetStateOnTransition` to `false`
+* If you need to handle in-app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
+* Depending on your transition library used, you will need to handle the z-order of the layout views (or by other means) to cope with interacting with the current route
 
-        public async Task InvokeRouteTransitionAsync(bool backwards)
-        {
-            await jsRuntime.InvokeVoidAsync("window.yourJsInterop.transitionFunction", backwards);
-        }
-    }
-}
-```
+</details>
 
-For client-side and server-side Blazor - add script section to index.html or _Host.cshtml (head section), for example
-```html
-<script src="yourJsInteropForAnimatedTransitions.js"></script>
-... any other supporting animation library scripts you are using, for example using animate.css
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
-```
+---
 
-Add your js interop implementation, for example (this is from the demos using animate.css)
-```Javascript
-window.yourJsInterop = {
-    transitionFunction: function (back) {
+## Example usage
+You can find *[detailed documentation on example usage here](README-EXAMPLE.md)*
 
-        let transitionIn = document.getElementsByClassName('transition-in')[0];
-        let transitionOut = document.getElementsByClassName('transition-out')[0];
+The demos show examples of the two implementation options. Both methods are interchangeable for Web Assembly and Server.
+* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour. 
+  * *[see commit for simple transition implementation](TODOLinkToCommit.md)*
+  * *[see commit for custom transition implementation](TODOLinkToCommit.md)*
+* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour. 
+  * *[see commit for simple transition implementation](TODOLinkToCommit.md)*
+  * *[see commit for custom transition implementation](TODOLinkToCommit.md)*
 
-        let direction = back ? "Up" : "Down";
+---
 
-        if (transitionIn && transitionOut) {
+## Version History
+* Version 3.0.0
+  * Implemented new `Transition.SwitchedRouteData` along with `Transition.RouteData` to provide means to perform custom transitions. i.e. parent/child views.
+  * Demos in ASPNET Core 5.0
+* Version 2.1.0 - *[documentation and v3 breaking changes](README-V2.md)*
+  * Addition of `ForgetStateOnTransition` option to reset page state when returning to previous route via navigation.
+* Version 2.0.0 - *[documentation](README-V2.md)*
+  * Simplified implemention and usage
+  * Transitions can now also be done via Blazor code as well as jsInterop
+  * Adjust transition behaviour on first render via `Transition.FirstRender`
+  * Get the transition direction from `Transition.Backwards`
+* Version 1.0.0 - *[documentation and v2 breaking changes](README-V1.md)*
 
-            transitionOut.classList.remove('transition-out');
-            transitionOut.classList.add(
-                "animate__fadeOut" + direction,
-                "animate__faster",
-                "animate__animated"
-            );
-
-            transitionIn.classList.remove('transition-in');
-            transitionIn.classList.add(
-                "animate__fadeIn" + direction,
-                "animate__faster",
-                "animate__animated"
-            );
-        }
-    }
-}
-```
-If you experience timing issues when transition animations are not performing you may need to wrap you inner function code in a zero timeout, for example
-```Javascript
-window.yourJsInterop = {
-    transitionFunction: function (back) {
-        setTimout(() => {
-           ...
-        }, 0);
-    }
-}
-```
+### Roadmap
+1. Handle disabling of interactions of the non active route layout view
+1. Make `ForgetStateOnTransition` configurable to specific page types
+1. Upgrade component library to ASP.NET Core 5.0 or above to include Javascript isolation and other possible improvements (when it is appropriate to do so)
