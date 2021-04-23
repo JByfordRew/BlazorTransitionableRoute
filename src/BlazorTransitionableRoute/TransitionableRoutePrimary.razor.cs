@@ -89,6 +89,9 @@ namespace BlazorTransitionableRoute
         [Parameter]
         public bool ForgetStateOnTransition { get; set; } = false;
 
+        [Parameter]
+        public int TransitionDurationMilliseconds { get; set; } = 1000;
+
         [JSInvokable]
         public async Task Navigate(bool backwards)
         {
@@ -123,6 +126,11 @@ namespace BlazorTransitionableRoute
             if (canResetStateOnTransitionOut)
             {
                 Transition = Transition.Create(routeData:null, switchedRouteData:null, Transition.IntoView, Transition.Backwards, Transition.FirstRender);
+                await Task.Delay(TransitionDurationMilliseconds);
+                if (invokesStateChanged)
+                {
+                    StateHasChanged();
+                }
             }
         }
     }
