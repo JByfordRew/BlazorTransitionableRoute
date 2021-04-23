@@ -6,7 +6,7 @@
     <Authors>Jeremy Byford-Rew, KernowCode</Authors>
     <RepositoryUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.1.0</Version>
+    <Version>3.0.0</Version>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
     <LangVersion>8.0</LangVersion>
@@ -21,8 +21,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Company>Jeremy Byford-Rew, KernowCode</Company>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <PackageReleaseNotes>V2.0.0 Breaking changes to v1. See readme at https://github.com/JByfordRew/BlazorTransitionableRoute
-V2.1.0 Addition of ForgetStateOnTransition option to reset page state when returning via navigation</PackageReleaseNotes>
+    <PackageReleaseNotes>V2.0.0 Simplified usage. No longer restricted to jsInterop for transitions. Addition of FirstRender and Backwards transition properties added.
+V2.1.0 Addition of ForgetStateOnTransition option to reset page state when returning via navigation
+V3.0.0 Addition of Transition.SwitchedRouteData to perform custom transitions. i.e. parent/child views.
+Breaking changes see readme at https://github.com/JByfordRew/BlazorTransitionableRoute</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
