@@ -115,6 +115,26 @@ This example code shows the Blazor coded implementation.  For jsInterop see the 
 
 ---
 
+## The API
+
+|The library provides a simple set of properties to aid you in adding transitions to your projects.
+
+The `TransitionableLayoutComponent`, which you may inherit, providing 
+* `Transition` properties
+  * `IntoView` - true, if the route should be made visible
+  * `Backwards` - true, if you want reverse animations, for instance
+  * `FirstRender` - true, if you want to stop transitioning because of first load
+  * `RouteData` reference data you may like to use
+  * `SwitchedRouteData` reference datayou may like to use
+* `TransitionType` a tuple property to allow custom transitions based on what is being transitioned
+  * `fromType` is the previous route `PageType`
+  * `toType` is the active route `PageType`
+
+There is also `IRouteTransitionInvoker` that you implement when using jsInterop for transitions
+* `InvokeRouteTransitionAsync` - provides the `Transition` parameter
+
+---
+
 ## Example usage
 You can find *[detailed documentation on example usage here](README-EXAMPLE.md)*
 
