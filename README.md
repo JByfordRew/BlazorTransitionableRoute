@@ -117,7 +117,7 @@ This example code shows the Blazor coded implementation.  For jsInterop see the 
 
 ## The API
 
-|The library provides a simple set of properties to aid you in adding transitions to your projects.
+The library provides a simple set of properties to aid you in adding transitions to your projects.
 
 The `TransitionableLayoutComponent`, which you may inherit, providing 
 * `Transition` properties
