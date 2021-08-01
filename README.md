@@ -160,6 +160,7 @@ The demos show examples of the two implementation options. Both methods are inte
 * Version 1.0.0 - *[documentation and v2 breaking changes](README-V1.md)*
 
 ## Roadmap
-1. Make `ForgetStateOnTransition` configurable to specific page types
-1. Potentially move increasing numbers of parameter settings to configuration options
-1. Upgrade component library to ASP.NET Core 5.0 or above to include Javascript isolation and other possible improvements (when it is appropriate to do so)
+* Make `ForgetStateOnTransition` configurable to specific page types
+* Potentially move increasing numbers of parameter settings to configuration options
+* Upgrade component library to ASP.NET Core 5.0 or above to include Javascript isolation and other possible improvements (when it is appropriate to do so)
+* Remember scroll positions and set when transition.
