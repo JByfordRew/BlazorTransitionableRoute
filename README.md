@@ -160,6 +160,7 @@ The demos show examples of the two implementation options. Both methods are inte
 * Version 1.0.0 - *[documentation and v2 breaking changes](README-V1.md)*
 
 ## Roadmap
+* Check behaviour for slow loaded pages and handle transition when in ready state or suggest best practice for pages that exhibit this.
 * Add transitionable `AuthorizeRouteView` implementation.
 * Make `ForgetStateOnTransition` configurable to specific page types
 * Potentially move increasing numbers of parameter settings to configuration options
