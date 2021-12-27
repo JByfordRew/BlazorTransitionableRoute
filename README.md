@@ -11,7 +11,6 @@ Sometimes you need to show transitions between page routes but Blazor, by defaul
 * Transition data provided allowing different transitions based on context
 * Optionally remember previous page state
 * Works with browser navigation history, forward and back 
-* Tested with .NET Core 3.1 and ASP.NET Core 5.0 
 * Very simple to use, only a couple of file changes required
 
 ---
