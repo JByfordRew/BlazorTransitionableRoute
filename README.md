@@ -163,5 +163,5 @@ The demos show examples of the two implementation options. Both methods are inte
 * Add transitionable `AuthorizeRouteView` implementation.
 * Make `ForgetStateOnTransition` configurable to specific page types
 * Potentially move increasing numbers of parameter settings to configuration options
-* Upgrade component library to ASP.NET Core 5.0 or above to include Javascript isolation and other possible improvements (when it is appropriate to do so)
+* Upgrade component library to .NET Core 6 to include Javascript isolation and other possible improvements (when it is appropriate to do so)
 * Remember scroll positions and set when transition.
