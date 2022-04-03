@@ -1,0 +1,14 @@
+﻿@if (Transition?.RouteData != null)
+{
+    <CascadingValue Value="Transition">
+        <AuthorizeRouteView RouteData="@Transition.RouteData" DefaultLayout="@DefaultLayout"></AuthorizeRouteView>
+    </CascadingValue>
+}
+
+@code {
+    [CascadingParameter]
+    public Transition Transition { get; set; }
+
+    [Parameter]
+    public Type DefaultLayout { get; set; }
+}
