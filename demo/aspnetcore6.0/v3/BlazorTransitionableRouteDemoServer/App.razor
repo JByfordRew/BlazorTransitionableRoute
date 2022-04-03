@@ -1,8 +1,15 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <LayoutView Layout="@typeof(MainLayout)">
+            <TransitionableRoutePrimary RouteData="@routeData" ForgetStateOnTransition="true">
+                <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
+            </TransitionableRoutePrimary>
+            <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="true">
+                <TransitionableRouteView DefaultLayout="@typeof(MyViewLayout)" />
+            </TransitionableRouteSecondary>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </LayoutView>
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>
