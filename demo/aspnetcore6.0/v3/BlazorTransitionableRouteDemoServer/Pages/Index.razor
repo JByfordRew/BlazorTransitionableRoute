@@ -1,9 +1,21 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Hello, @Username!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code {
+    private string Username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var x = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        Username = x.User?.Identity?.Name ?? "{Register and Log In}";
+        await base.OnInitializedAsync();
+    }
+}
