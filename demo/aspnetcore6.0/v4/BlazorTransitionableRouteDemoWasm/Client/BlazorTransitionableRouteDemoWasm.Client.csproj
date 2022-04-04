@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj" />
     <ProjectReference Include="..\Shared\BlazorTransitionableRouteDemoWasm.Shared.csproj" />
   </ItemGroup>
 
