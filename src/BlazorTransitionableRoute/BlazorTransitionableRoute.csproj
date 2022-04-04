@@ -1,16 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
+	<TargetFramework>net6.0</TargetFramework>    
     <Authors>Jeremy Byford-Rew, KernowCode</Authors>
     <RepositoryUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>3.1.0</Version>
+    <Version>4.0.0</Version>
     <OutputType>Library</OutputType>
-    <IsPackable>true</IsPackable>
-    <LangVersion>8.0</LangVersion>
-    <RazorLangVersion>3.0</RazorLangVersion>
+    <IsPackable>true</IsPackable>    
     <Description>Transitionable routes for Blazor and Razor Components</Description>
     <PackageProjectUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</PackageProjectUrl>
     <RepositoryUrl>https://github.com/JByfordRew/BlazorTransitionableRoute</RepositoryUrl>
@@ -25,16 +22,17 @@
 V2.1.0 Addition of ForgetStateOnTransition option to reset page state when returning via navigation
 V3.0.0 Addition of Transition.SwitchedRouteData to perform custom transitions. i.e. parent/child views.
 V3.1.0 Addition of TransitionDurationMilliseconds to clear switched route view after transition.
-Breaking changes see readme at https://github.com/JByfordRew/BlazorTransitionableRoute</PackageReleaseNotes>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>0</WarningLevel>
+V4.0.0 Move to .NET 6 from .NET Standard 2.1</PackageReleaseNotes>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.5" />
+	  <SupportedPlatform Include="browser" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.3" />	  
   </ItemGroup>
 
 </Project>
