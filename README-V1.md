@@ -1,4 +1,6 @@
-# BlazorTransitionableRoute
+NOTE: This README is outdated, see root of repo for latest
+
+# BlazorTransitionableRoute V1.0.0
 Allows current and previous route to exist enabling transition animations of UI/UX design systems.
 
 ### Breaking changes to V1 moving to V2
