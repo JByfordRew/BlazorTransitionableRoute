@@ -2,7 +2,7 @@ NOTE: This README is outdated, see root of repo for latest
 
 BREAKING CHANGES: [Breaking changes how to commit](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/643b1fb2c78f7f785bf47f9612b05e37483526c6)
 
-# BlazorTransitionableRoute
+# BlazorTransitionableRoute V2.1.0
 Allows current and previous route to exist enabling transition animations of UI/UX design systems.
 
 ## What it does?
