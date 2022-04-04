@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Server", "Server\BlazorTransitionableRouteDemoWasm.Server.csproj", "{5B4FC3A7-4664-4EFF-B8C5-EEF28EC48602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Server", "Server\BlazorTransitionableRouteDemoWasm.Server.csproj", "{5B4FC3A7-4664-4EFF-B8C5-EEF28EC48602}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Client", "Client\BlazorTransitionableRouteDemoWasm.Client.csproj", "{6A168B1A-90C1-4E08-BD0C-E2ABA91ED33C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Client", "Client\BlazorTransitionableRouteDemoWasm.Client.csproj", "{6A168B1A-90C1-4E08-BD0C-E2ABA91ED33C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Shared", "Shared\BlazorTransitionableRouteDemoWasm.Shared.csproj", "{78B44F90-3C6A-434F-8EE5-BF145F55DE1D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRoute", "..\..\..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj", "{261E7A6C-CA8B-4DA2-B6FD-48C6C9F62ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Shared", "Shared\BlazorTransitionableRouteDemoWasm.Shared.csproj", "{78B44F90-3C6A-434F-8EE5-BF145F55DE1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{78B44F90-3C6A-434F-8EE5-BF145F55DE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78B44F90-3C6A-434F-8EE5-BF145F55DE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78B44F90-3C6A-434F-8EE5-BF145F55DE1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{261E7A6C-CA8B-4DA2-B6FD-48C6C9F62ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{261E7A6C-CA8B-4DA2-B6FD-48C6C9F62ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{261E7A6C-CA8B-4DA2-B6FD-48C6C9F62ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{261E7A6C-CA8B-4DA2-B6FD-48C6C9F62ABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
