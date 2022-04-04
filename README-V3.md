@@ -1,3 +1,5 @@
+NOTE: This README is outdated, see root of repo for latest
+
 # BlazorTransitionableRoute V3.1.0
 Allows current and previous route to exist enabling page transition animations.
 
