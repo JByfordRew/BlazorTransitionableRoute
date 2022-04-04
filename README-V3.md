@@ -1,4 +1,4 @@
-# BlazorTransitionableRoute
+# BlazorTransitionableRoute V3.1.0
 Allows current and previous route to exist enabling page transition animations.
 
 ## What it does?
