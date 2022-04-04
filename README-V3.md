@@ -7,7 +7,6 @@ Sometimes you need to show transitions between page routes but Blazor, by defaul
 ![Demo](demo/BlazorTransitionableRouteDemo.gif)
 
 ## Feature Summary
-* .NET 6 (and prior .net standard 2.1 using v3.1.0 or before)
 * Two transition implementation options; Blazor coded or jsInterop
 * Transition data provided allowing different transitions based on context
 * Optionally remember previous page state
@@ -34,12 +33,18 @@ dotnet add package BlazorTransitionableRoute
 
 ### Common component steps
 
+For client-side and server-side Blazor - add script section to index.html or _Host.cshtml
+
+```html
+<script src="_content/BlazorTransitionableRoute/jsInterop.js"></script>
+```
+
 Add reference to _Imports.razor file
 ```C#
 @using BlazorTransitionableRoute
 ```
 
-Add registrations for the dependency injection framework in `Program.cs`, for example
+For client-side and server-side Blazor - add registrations for the dependency injection framework in `Program.cs` or `Startup.cs`, for example
 ```C#
 builder.Services.AddScoped<BlazorTransitionableRoute.IRouteTransitionInvoker, MyRouteTransitionInvoker>();
 ```
@@ -104,7 +109,6 @@ This example code shows the Blazor coded implementation.  For jsInterop see the 
 * If you need to remember page state, to keep track of scroll position for example, you will need to set `ForgetStateOnTransition` to `false`
   * If so, depending on your transition library used, you will need to use z-order, pointer-events, offset position, or other means, of the layout views to cope with interacting with the current route where the switched route is still present but hidden.
 * If you need to handle in-app back buttons then use the jsInterop to call the native back i.e. `window.history.back();`
-* If you use `AuthorizeRouteView` then you will have to create you own razor component similar to `TransitionableRouteView` and consume in the `App.razor` file.  See the 'Example Usage' section below for details.
 
 </details>
 
@@ -133,23 +137,21 @@ There is also `IRouteTransitionInvoker` that you implement when using jsInterop 
 ## Example usage
 You can find *[detailed documentation on example usage here](README-EXAMPLE.md)*
 
-These demos show examples of the Blazor coded transition option (for the Javascript interop transition option, see the detailed documentation mentioned above).
-* The `BlazorTransitionableRouteDemoWasm` demo for WebAssembly Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/ee2de3b564f7891932ce9e7e96cc58b86a32f94d)*
-  * For `AuthorizeRouteView` changes see this commit
-* The `BlazorTransitionableRouteDemoServer` demo for Server Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/b11dcdd3733466fdaca1769d93d0bd062fb7a1d9)*
-  * For `AuthorizeRouteView` changes see this commit
+The demos show examples of the two implementation options. Both methods are interchangeable for Web Assembly and Server.
+* The `BlazorTransitionableRouteDemoWasm` demo shows a Blazor coded transition behaviour. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/ee2de3b564f7891932ce9e7e96cc58b86a32f94d)*
+* The `BlazorTransitionableRouteDemoServer` demo shows a JavaScript Interop transition behaviour. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/b11dcdd3733466fdaca1769d93d0bd062fb7a1d9)*
 
 ---
 
 ## Version History
-* Version 4.0.0 .NET 6 component, previously .NET Standard 2.1.
-* Version 3.1.0 - *[previous documentation](README-V3.md)*
+* Version 3.1.0
   * Addition of `TransitionDurationMilliseconds` to clear switched route view after transition.  Only when `ForgetStateOnTransition` is set to true.
-* Version 3.0.0 - *[previous documentation](README-V3.md)*
+* Version 3.0.0
   * Implemented new `Transition.SwitchedRouteData` along with `Transition.RouteData` to provide means to perform custom transitions. i.e. parent/child views.
-* Version 2.1.0 - *[previous documentation and v3 breaking changes](README-V2.md)*
+  * Demos in ASPNET Core 5.0
+* Version 2.1.0 - *[documentation and v3 breaking changes](README-V2.md)*
   * Addition of `ForgetStateOnTransition` option to reset page state when returning to previous route via navigation.
-* Version 2.0.0 - *[previous documentation](README-V2.md)*
+* Version 2.0.0 - *[documentation](README-V2.md)*
   * Simplified implemention and usage
   * Transitions can now also be done via Blazor code as well as jsInterop
   * Adjust transition behaviour on first render via `Transition.FirstRender`
@@ -157,6 +159,8 @@ These demos show examples of the Blazor coded transition option (for the Javascr
 * Version 1.0.0 - *[documentation and v2 breaking changes](README-V1.md)*
 
 ## Roadmap
+* Upgrade component library to .NET Core 6 to include Javascript isolation and other possible improvements (when it is appropriate to do so)
+    * Add transitionable `AuthorizeRouteView` implementation.
 * Check behaviour for slow loaded pages and handle transition when in ready state or suggest best practice for pages that exhibit this.
 * Make `ForgetStateOnTransition` configurable to specific page types
 * Potentially move increasing numbers of parameter settings to configuration options
