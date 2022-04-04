@@ -134,10 +134,10 @@ There is also `IRouteTransitionInvoker` that you implement when using jsInterop 
 You can find *[detailed documentation on example usage here](README-EXAMPLE.md)*
 
 These demos show examples of the Blazor coded transition option (for the Javascript interop transition option, see the detailed documentation mentioned above).
-* The `BlazorTransitionableRouteDemoWasm` demo for WebAssembly Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/ee2de3b564f7891932ce9e7e96cc58b86a32f94d)*
-  * For `AuthorizeRouteView` changes see this commit
-* The `BlazorTransitionableRouteDemoServer` demo for Server Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/b11dcdd3733466fdaca1769d93d0bd062fb7a1d9)*
-  * For `AuthorizeRouteView` changes see this commit
+* The `BlazorTransitionableRouteDemoWasm` demo for WebAssembly Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/396c18e625a0e036f28424c223b744406fd0ebf0)*
+  * For `AuthorizeRouteView` changes see *[this commit](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/2a71df654cbe0bfd9804b5ff29bb207bb08ba06a)*
+* The `BlazorTransitionableRouteDemoServer` demo for Server Apps. *[see commit for implementation details](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/d10a5621f5d4c4523510055093f430279f8c9208)*
+  * For `AuthorizeRouteView` changes see *[this commit](https://github.com/JByfordRew/BlazorTransitionableRoute/commit/d110ec2e009ed11729d8e17dde83f8a9cc45a730)*
 
 ---
 
