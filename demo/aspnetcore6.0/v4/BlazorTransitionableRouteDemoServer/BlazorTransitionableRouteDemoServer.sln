@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoServer", "BlazorTransitionableRouteDemoServer.csproj", "{AD122A9C-CAB4-4860-83EB-BEEA63AFB7DF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRoute", "..\..\..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj", "{65146DD6-566E-43ED-91F6-3F047F413AE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AD122A9C-CAB4-4860-83EB-BEEA63AFB7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD122A9C-CAB4-4860-83EB-BEEA63AFB7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD122A9C-CAB4-4860-83EB-BEEA63AFB7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65146DD6-566E-43ED-91F6-3F047F413AE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65146DD6-566E-43ED-91F6-3F047F413AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65146DD6-566E-43ED-91F6-3F047F413AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65146DD6-566E-43ED-91F6-3F047F413AE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
