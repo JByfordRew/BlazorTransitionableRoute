@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Server", "Server\BlazorTransitionableRouteDemoWasm.Server.csproj", "{A2B0854E-B252-4DF5-8DAE-CDAF53A12142}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Server", "Server\BlazorTransitionableRouteDemoWasm.Server.csproj", "{A2B0854E-B252-4DF5-8DAE-CDAF53A12142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Client", "Client\BlazorTransitionableRouteDemoWasm.Client.csproj", "{D7AF8853-E23B-4F25-94C3-E8C2B4D24231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Client", "Client\BlazorTransitionableRouteDemoWasm.Client.csproj", "{D7AF8853-E23B-4F25-94C3-E8C2B4D24231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTransitionableRouteDemoWasm.Shared", "Shared\BlazorTransitionableRouteDemoWasm.Shared.csproj", "{DE0A6EFF-C893-4C43-A500-B53B39B7115E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRouteDemoWasm.Shared", "Shared\BlazorTransitionableRouteDemoWasm.Shared.csproj", "{DE0A6EFF-C893-4C43-A500-B53B39B7115E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTransitionableRoute", "..\..\..\..\src\BlazorTransitionableRoute\BlazorTransitionableRoute.csproj", "{F0D03F25-83FA-4E8B-9A3F-07155D571822}"
 EndProject
