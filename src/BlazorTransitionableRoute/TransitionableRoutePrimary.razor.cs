@@ -40,8 +40,10 @@ namespace BlazorTransitionableRoute
     {
         internal bool invokesStateChanged = true;
 
+        internal IJsInterop jsInterop;
         private bool isActive = true;
         private RouteData lastRouteData;
+
         public TransitionableRoutePrimary()
         {
             isActive = true;
@@ -70,10 +72,8 @@ namespace BlazorTransitionableRoute
 
         internal async Task HandleFirstRender()
         {
-            await JSRuntime.InvokeVoidAsync(
-                "window.blazorTransitionableRoute.init",
-                DotNetObjectReference.Create(this), isActive);
-
+            jsInterop ??= new JsInterop(JSRuntime);
+            await jsInterop.Init(DotNetObjectReference.Create(this), isActive);
             await Navigate(backwards: false, firstRender: true);
         }
 

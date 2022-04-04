@@ -64,31 +64,28 @@ window.addEventListener('popstate', onPopstate);
 //End https://github.com/johanholmerin/popstate-direction/blob/master/index.js
 
 //Interop
-window.blazorTransitionableRoute = {
-    dotnetHelperPrimary: undefined,
-    dotnetHelperSecondary: undefined,
-    init: function (dotnetHelper, isPrimary) {
-
-        if (isPrimary) {
-            window.blazorTransitionableRoute.dotnetHelperPrimary = dotnetHelper;
-            let lastLocation = location.href;
-            let isBackwards = false;
-            let invokeTransition = () => {
-                window.blazorTransitionableRoute.dotnetHelperPrimary.invokeMethodAsync('Navigate', isBackwards);
-                window.blazorTransitionableRoute.dotnetHelperSecondary.invokeMethodAsync('Navigate', isBackwards);
-            }
-            setInterval(function () {
-                if (lastLocation != location.href) {
-                    lastLocation = location.href;
-                    invokeTransition();
-                    isBackwards = false;
-                }
-            }, 25);
-            window.addEventListener('back', event => {
-                isBackwards = true;
-            });
-        } else {
-            window.blazorTransitionableRoute.dotnetHelperSecondary = dotnetHelper;
+let dotnetHelperPrimary = undefined;
+let dotnetHelperSecondary = undefined;
+export function init(dotnetHelper, isPrimary) {
+    if (isPrimary) {
+        dotnetHelperPrimary = dotnetHelper;
+        let lastLocation = location.href;
+        let isBackwards = false;
+        let invokeTransition = () => {
+            dotnetHelperPrimary.invokeMethodAsync('Navigate', isBackwards);
+            dotnetHelperSecondary.invokeMethodAsync('Navigate', isBackwards);
         }
+        setInterval(function () {
+            if (lastLocation != location.href) {
+                lastLocation = location.href;
+                invokeTransition();
+                isBackwards = false;
+            }
+        }, 25);
+        window.addEventListener('back', event => {
+            isBackwards = true;
+        });
+    } else {
+        dotnetHelperSecondary = dotnetHelper;
     }
 }

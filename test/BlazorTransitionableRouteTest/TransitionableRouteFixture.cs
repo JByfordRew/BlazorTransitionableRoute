@@ -11,6 +11,7 @@ namespace BlazorTransitionableRouteTest
     {
         private bool doNotInvokeStateChangedDuringTestBool = false;
         private IJSRuntime jsRuntime = new StubJsRuntime();
+        private IJsInterop jsInterop = new StubJsInterop();
 
         private StubRouteTransitionInvoker transitionInvoker1 = new StubRouteTransitionInvoker();
         private StubRouteTransitionInvoker transitionInvoker2 = new StubRouteTransitionInvoker();
@@ -32,6 +33,7 @@ namespace BlazorTransitionableRouteTest
             this.primaryTransitionableRoute = new TransitionableRoutePrimary();
             this.primaryTransitionableRoute.TransitionInvoker = this.transitionInvoker1;
             this.primaryTransitionableRoute.JSRuntime = jsRuntime;
+            this.primaryTransitionableRoute.jsInterop = jsInterop;
             this.primaryTransitionableRoute.invokesStateChanged = doNotInvokeStateChangedDuringTestBool;
             return this;
         }
@@ -49,6 +51,7 @@ namespace BlazorTransitionableRouteTest
             this.secondaryTransitionableRoute.MakeSecondary();
             this.secondaryTransitionableRoute.TransitionInvoker = this.transitionInvoker2;
             this.secondaryTransitionableRoute.JSRuntime = jsRuntime;
+            this.secondaryTransitionableRoute.jsInterop = jsInterop;
             this.secondaryTransitionableRoute.invokesStateChanged = doNotInvokeStateChangedDuringTestBool;
             return this;
         }
